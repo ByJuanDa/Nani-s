@@ -14,7 +14,7 @@ export const sendMessage = async (req: Request, res: Response) => {
     await prisma.contactMessage.create({ data: { name, phone, message } })
 
     resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'Nani\'s Carnes Frías <contacto@naniscarnesfrias.com>',
       to: 'chikonanis11@gmail.com',
       subject: `Nuevo mensaje de ${name}`,
       html: `
