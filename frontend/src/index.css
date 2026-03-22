@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #fff;
+  color: #1a1a1a;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-20px) rotate(5deg); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-30px) rotate(-8deg); }
+}
+
+@keyframes float-reverse {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(18px) rotate(6deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.25; transform: scale(1); }
+  50%       { opacity: 0.45; transform: scale(1.08); }
+}
+
+@keyframes drift {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  33%  { transform: translate(15px, -10px) rotate(120deg); }
+  66%  { transform: translate(-10px, 8px) rotate(240deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float        { animation: float 5s ease-in-out infinite; }
+.animate-float-slow   { animation: float-slow 7s ease-in-out infinite; }
+.animate-float-reverse{ animation: float-reverse 6s ease-in-out infinite; }
+.animate-pulse-glow   { animation: pulse-glow 4s ease-in-out infinite; }
+.animate-drift        { animation: drift 12s linear infinite; }
+.animate-slide-up     { animation: slide-up 0.7s ease-out forwards; }
+.animate-delay-2s     { animation-delay: 2s; }
+
+.td-0   { transition-delay: 0ms; }
+.td-60  { transition-delay: 60ms; }
+.td-120 { transition-delay: 120ms; }
+.td-180 { transition-delay: 180ms; }
+.td-240 { transition-delay: 240ms; }
+.td-300 { transition-delay: 300ms; }
+.td-360 { transition-delay: 360ms; }
+.td-420 { transition-delay: 420ms; }
+.td-480 { transition-delay: 480ms; }
+.td-540 { transition-delay: 540ms; }
+.td-600 { transition-delay: 600ms; }
+.td-660 { transition-delay: 660ms; }
+.td-720 { transition-delay: 720ms; }
+.td-780 { transition-delay: 780ms; }
+.td-840 { transition-delay: 840ms; }
