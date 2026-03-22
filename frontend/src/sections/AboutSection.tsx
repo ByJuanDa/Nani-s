@@ -115,7 +115,7 @@ export default function AboutSection() {
           {/* Ventajas */}
           <div className="flex flex-col gap-5 mt-6 md:mt-0">
             {ventajas.map((v, i) => (
-              <AnimatedCard key={v.title} from="right" delay={i * 120}>
+              <AnimatedCard key={v.title} from="right" delay={i * 120 as 0 | 120 | 240 | 400}>
                 <div className="flex gap-4 items-start bg-[#FFF8F0] hover:bg-red-50 rounded-2xl p-5 border border-red-100 transition-colors">
                   <span className="text-3xl flex-shrink-0">{v.icon}</span>
                   <div>
