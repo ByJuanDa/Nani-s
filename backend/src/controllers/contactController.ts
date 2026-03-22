@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { prisma } from '../lib/prisma'
-import { transporter } from '../lib/mailer'
+import { resend } from '../lib/mailer'
 
 export const sendMessage = async (req: Request, res: Response) => {
   const { name, phone, message } = req.body
@@ -13,14 +13,14 @@ export const sendMessage = async (req: Request, res: Response) => {
   try {
     await prisma.contactMessage.create({ data: { name, phone, message } })
 
-    transporter.sendMail({
-      from: `"Nani's Web" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER,
-      subject: `📩 Nuevo mensaje de ${name}`,
+    resend.emails.send({
+      from: 'onboarding@resend.dev',
+      to: 'chikonanis11@gmail.com',
+      subject: `Nuevo mensaje de ${name}`,
       html: `
         <div style="font-family:sans-serif;max-width:500px;margin:auto;border:1px solid #eee;border-radius:12px;overflow:hidden">
           <div style="background:#8B0000;padding:20px 24px">
-            <h2 style="color:#fff;margin:0;font-size:18px">📩 Nuevo mensaje de contacto</h2>
+            <h2 style="color:#fff;margin:0;font-size:18px">Nuevo mensaje de contacto</h2>
             <p style="color:#ffaaaa;margin:4px 0 0;font-size:13px">Nani's Carnes Frías</p>
           </div>
           <div style="padding:24px">
