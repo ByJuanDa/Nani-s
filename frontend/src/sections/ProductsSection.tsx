@@ -1,24 +1,50 @@
+import { useState, useEffect } from 'react'
 import ProductGrid from '../components/Products/ProductGrid'
+import CartPanel from '../components/Products/CartPanel'
 
-const products = [
-  { id: 1,  name: 'Chuleta entera',    price: 74,  unit: 'kg', category: 'chuleta'  },
-  { id: 2,  name: 'Chuleta marcada',   price: 88,  unit: 'kg', category: 'chuleta'  },
-  { id: 3,  name: 'Chuleta de kilo',   price: 96,  unit: 'kg', category: 'chuleta'  },
-  { id: 4,  name: 'Pierna española',   price: 90,  unit: 'kg', category: 'pierna'   },
-  { id: 5,  name: 'Pierna kilo',       price: 94,  unit: 'kg', category: 'pierna'   },
-  { id: 6,  name: 'Longaniza',         price: 60,  unit: 'kg', category: 'embutido' },
-  { id: 7,  name: 'Tocino',            price: 96,  unit: 'kg', category: 'tocino'   },
-  { id: 8,  name: 'Tocino kilo',       price: 100, unit: 'kg', category: 'tocino'   },
-  { id: 9,  name: 'Queso de puerco',   price: 80,  unit: 'kg', category: 'queso'    },
-  { id: 10, name: 'Jamón preferente',  price: 90,  unit: 'kg', category: 'jamon'    },
-  { id: 11, name: 'Jamón York',        price: 100, unit: 'kg', category: 'jamon'    },
-  { id: 12, name: 'Chistorra',         price: 100, unit: 'kg', category: 'embutido' },
-  { id: 13, name: 'Argentino',         price: 100, unit: 'kg', category: 'embutido' },
-  { id: 14, name: 'Longaniza 1ra',     price: 100, unit: 'kg', category: 'embutido' },
-  { id: 15, name: 'Queso Oaxaca',      price: 110, unit: 'kg', category: 'queso'    },
-]
+type Product = {
+  id: number
+  name: string
+  price: number
+  unit: string
+  category: string
+  description?: string
+  presentation?: string
+  popular?: boolean
+}
+
+type CartItem = { product: Product; qty: number }
 
 export default function ProductsSection() {
+  const [products, setProducts] = useState<Product[]>([])
+  const [cart, setCart] = useState<CartItem[]>([])
+  const [cartOpen, setCartOpen] = useState(false)
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/products`)
+      .then((r) => r.json())
+      .then((data) => setProducts(data.data ?? []))
+      .catch(() => {})
+  }, [])
+
+  const addToCart = (product: Product) => {
+    setCart((prev) => {
+      const existing = prev.find((i) => i.product.id === product.id)
+      if (existing) return prev.map((i) => i.product.id === product.id ? { ...i, qty: i.qty + 1 } : i)
+      return [...prev, { product, qty: 1 }]
+    })
+    setCartOpen(true)
+  }
+
+  const removeFromCart = (id: number) => setCart((prev) => prev.filter((i) => i.product.id !== id))
+
+  const updateQty = (id: number, qty: number) => {
+    if (qty <= 0) return removeFromCart(id)
+    setCart((prev) => prev.map((i) => i.product.id === id ? { ...i, qty } : i))
+  }
+
+  const cartCount = cart.reduce((sum, i) => sum + i.qty, 0)
+
   return (
     <section id="productos" className="bg-[#FFF8F0] py-24 px-4">
       <div className="max-w-6xl mx-auto">
@@ -34,7 +60,7 @@ export default function ProductsSection() {
           </p>
         </div>
 
-        <ProductGrid products={products} />
+        <ProductGrid products={products} onAdd={addToCart} />
 
         <div className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
@@ -61,6 +87,29 @@ export default function ProductsSection() {
           </a>
         </div>
       </div>
+
+      {/* Botón flotante del carrito */}
+      {cartCount > 0 && (
+        <button
+          type="button"
+          onClick={() => setCartOpen(true)}
+          className="fixed bottom-6 right-6 z-40 bg-[#8B0000] hover:bg-[#C62828] text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-all"
+        >
+          <span className="text-2xl">🛒</span>
+          <span className="absolute -top-1 -right-1 bg-[#1B5E20] text-white text-xs font-black w-5 h-5 rounded-full flex items-center justify-center">
+            {cartCount}
+          </span>
+        </button>
+      )}
+
+      {cartOpen && (
+        <CartPanel
+          items={cart}
+          onRemove={removeFromCart}
+          onQtyChange={updateQty}
+          onClose={() => setCartOpen(false)}
+        />
+      )}
     </section>
   )
 }

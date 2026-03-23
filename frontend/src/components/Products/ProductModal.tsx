@@ -27,7 +27,7 @@ const categoryIcons: Record<string, string> = {
   jamon:    '🍱',
 }
 
-export default function ProductModal({ product, onClose }: { product: Product; onClose: () => void }) {
+export default function ProductModal({ product, onClose, onAdd }: { product: Product; onClose: () => void; onAdd: (p: Product) => void }) {
   const color = categoryColors[product.category] ?? { bg: 'bg-gray-50', text: 'text-gray-600', border: 'border-gray-200' }
   const icon  = categoryIcons[product.category] ?? '🥩'
 
@@ -82,14 +82,13 @@ export default function ProductModal({ product, onClose }: { product: Product; o
             <span className="text-3xl font-black text-[#8B0000]">${product.price}</span>
             <span className="text-gray-400 text-sm ml-1">/ {product.unit}</span>
           </div>
-          <a
-            href={`https://wa.me/5539784045?text=Hola, me interesa ${product.name} ($${product.price}/kg)`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-[#1B5E20] hover:bg-[#2E7D32] text-white text-sm font-bold px-5 py-2.5 rounded-full transition-colors"
+          <button
+            type="button"
+            onClick={() => { onAdd(product); onClose() }}
+            className="bg-[#8B0000] hover:bg-[#C62828] text-white text-sm font-bold px-5 py-2.5 rounded-full transition-colors"
           >
-            Pedir por WhatsApp
-          </a>
+            Agregar al carrito
+          </button>
         </div>
       </div>
     </div>

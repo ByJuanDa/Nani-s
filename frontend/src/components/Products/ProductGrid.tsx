@@ -44,7 +44,7 @@ function AnimatedCard({ children, index }: { children: React.ReactNode; index: n
   )
 }
 
-export default function ProductGrid({ products }: { products: Product[] }) {
+export default function ProductGrid({ products, onAdd }: { products: Product[]; onAdd: (p: Product) => void }) {
   const [active, setActive] = useState('todos')
   const [selected, setSelected] = useState<Product | null>(null)
 
@@ -80,7 +80,7 @@ export default function ProductGrid({ products }: { products: Product[] }) {
         ))}
       </div>
 
-      {selected && <ProductModal product={selected} onClose={() => setSelected(null)} />}
+      {selected && <ProductModal product={selected} onClose={() => setSelected(null)} onAdd={onAdd} />}
     </div>
   )
 }
