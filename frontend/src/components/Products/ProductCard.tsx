@@ -66,21 +66,10 @@ export default function ProductCard({ product, onClick }: { product: Product; on
         </span>
       )}
 
-      {/* Precio + botón */}
-      <div className="mt-auto flex items-center justify-between gap-2">
-        <div>
-          <span className="text-2xl font-black text-[#8B0000]">${product.price}</span>
-          <span className="text-gray-400 text-xs ml-1">/ {product.unit}</span>
-        </div>
-        <a
-          href={`https://wa.me/5539784045?text=Hola, me interesa ${product.name} ($${product.price}/kg)`}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => e.stopPropagation()}
-          className="bg-[#1B5E20] hover:bg-[#2E7D32] text-white text-xs font-bold px-3 py-1.5 rounded-full transition-colors whitespace-nowrap"
-        >
-          Pedir
-        </a>
+      {/* Precio */}
+      <div className="mt-auto">
+        <span className="text-2xl font-black text-[#8B0000]">${product.price}</span>
+        <span className="text-gray-400 text-xs ml-1">/ {product.unit}</span>
       </div>
     </div>
   )
