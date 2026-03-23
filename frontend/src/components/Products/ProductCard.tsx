@@ -4,6 +4,8 @@ type Product = {
   price: number
   unit: string
   category: string
+  description?: string
+  presentation?: string
   popular?: boolean
 }
 
@@ -25,13 +27,15 @@ const categoryIcons: Record<string, string> = {
   jamon:    '🍱',
 }
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({ product, onClick }: { product: Product; onClick: () => void }) {
   const color = categoryColors[product.category] ?? { bg: 'bg-gray-50', text: 'text-gray-600', border: 'border-gray-200' }
   const icon  = categoryIcons[product.category] ?? '🥩'
 
   return (
-    <div className="group relative bg-white rounded-2xl border border-gray-100 hover:border-[#8B0000]/20 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 p-5 flex flex-col gap-3 overflow-hidden">
-
+    <div
+      onClick={onClick}
+      className="group relative bg-white rounded-2xl border border-gray-100 hover:border-[#8B0000]/20 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 p-5 flex flex-col gap-3 overflow-hidden cursor-pointer"
+    >
       {/* Fondo decorativo en hover */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#8B0000]/0 to-[#8B0000]/0 group-hover:from-[#8B0000]/3 group-hover:to-transparent transition-all duration-300 rounded-2xl" />
 
@@ -55,6 +59,13 @@ export default function ProductCard({ product }: { product: Product }) {
       {/* Nombre */}
       <h3 className="font-bold text-gray-800 text-sm leading-snug">{product.name}</h3>
 
+      {/* Presentación */}
+      {product.presentation && (
+        <span className="text-[11px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full w-fit font-medium">
+          {product.presentation}
+        </span>
+      )}
+
       {/* Precio + botón */}
       <div className="mt-auto flex items-center justify-between gap-2">
         <div>
@@ -65,6 +76,7 @@ export default function ProductCard({ product }: { product: Product }) {
           href={`https://wa.me/5539784045?text=Hola, me interesa ${product.name} ($${product.price}/kg)`}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
           className="bg-[#1B5E20] hover:bg-[#2E7D32] text-white text-xs font-bold px-3 py-1.5 rounded-full transition-colors whitespace-nowrap"
         >
           Pedir

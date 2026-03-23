@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useInView } from '../../hooks/useInView'
 import ProductCard from './ProductCard'
+import ProductModal from './ProductModal'
 
 type Product = {
   id: number
@@ -8,6 +9,8 @@ type Product = {
   price: number
   unit: string
   category: string
+  description?: string
+  presentation?: string
   popular?: boolean
 }
 
@@ -43,6 +46,7 @@ function AnimatedCard({ children, index }: { children: React.ReactNode; index: n
 
 export default function ProductGrid({ products }: { products: Product[] }) {
   const [active, setActive] = useState('todos')
+  const [selected, setSelected] = useState<Product | null>(null)
 
   const filtered = active === 'todos' ? products : products.filter((p) => p.category === active)
 
@@ -71,10 +75,12 @@ export default function ProductGrid({ products }: { products: Product[] }) {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {filtered.map((p, i) => (
           <AnimatedCard key={p.id} index={i}>
-            <ProductCard product={p} />
+            <ProductCard product={p} onClick={() => setSelected(p)} />
           </AnimatedCard>
         ))}
       </div>
+
+      {selected && <ProductModal product={selected} onClose={() => setSelected(null)} />}
     </div>
   )
 }
