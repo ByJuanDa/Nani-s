@@ -36,6 +36,7 @@ const productImages: Record<string, string> = {
   'Jamón preferente': '/products/jamon_preferente.jpeg',
   'Jamón York':       '/products/jamon_york.jpeg',
   'Chistorra':        '/products/chistorra.jpeg',
+  'Argentino':        '/products/chorizo_argentino.jpeg',
 }
 
 export default function ProductCard({ product, onClick }: { product: Product; onClick: () => void }) {

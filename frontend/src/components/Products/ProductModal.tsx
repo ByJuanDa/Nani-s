@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 type Product = {
   id: number
   name: string
@@ -36,12 +38,18 @@ const productImages: Record<string, string> = {
   'Jamón preferente': '/products/jamon_preferente.jpeg',
   'Jamón York':       '/products/jamon_york.jpeg',
   'Chistorra':        '/products/chistorra.jpeg',
+  'Argentino':        '/products/chorizo_argentino.jpeg',
 }
 
 export default function ProductModal({ product, onClose, onAdd }: { product: Product; onClose: () => void; onAdd: (p: Product) => void }) {
   const color = categoryColors[product.category] ?? { bg: 'bg-gray-50', text: 'text-gray-600', border: 'border-gray-200' }
   const icon  = categoryIcons[product.category] ?? '🥩'
   const image = productImages[product.name]
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = '' }
+  }, [])
 
   return (
     <div
