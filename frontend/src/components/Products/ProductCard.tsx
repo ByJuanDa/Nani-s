@@ -42,48 +42,57 @@ const productImages: Record<string, string> = {
 export default function ProductCard({ product, onClick }: { product: Product; onClick: () => void }) {
   const color = categoryColors[product.category] ?? { bg: 'bg-gray-50', text: 'text-gray-600', border: 'border-gray-200' }
   const icon  = categoryIcons[product.category] ?? '🥩'
+  const image = productImages[product.name]
 
   return (
     <div
       onClick={onClick}
-      className="group relative bg-white rounded-2xl border border-gray-100 hover:border-[#8B0000]/20 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 p-5 flex flex-col gap-3 overflow-hidden cursor-pointer"
+      className="group relative bg-white rounded-2xl border border-gray-100 hover:border-[#8B0000]/20 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col overflow-hidden cursor-pointer"
     >
-      {/* Fondo decorativo en hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#8B0000]/0 to-[#8B0000]/0 group-hover:from-[#8B0000]/3 group-hover:to-transparent transition-all duration-300 rounded-2xl" />
-
       {/* Badge popular */}
       {product.popular && (
-        <span className="absolute top-3 right-3 bg-[#8B0000] text-white text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full">
+        <span className="absolute top-3 right-3 z-10 bg-[#8B0000] text-white text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow">
           Popular
         </span>
       )}
 
-      {/* Imagen o ícono */}
-      <div className={`w-12 h-12 rounded-xl ${color.bg} flex items-center justify-center text-2xl border ${color.border} overflow-hidden`}>
-        {productImages[product.name]
-          ? <img src={productImages[product.name]} alt={product.name} className="w-full h-full object-cover" />
-          : icon}
-      </div>
-
-      {/* Badge categoría */}
-      <span className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full w-fit border ${color.bg} ${color.text} ${color.border}`}>
-        {product.category}
-      </span>
-
-      {/* Nombre */}
-      <h3 className="font-bold text-gray-800 text-sm leading-snug">{product.name}</h3>
-
-      {/* Presentación */}
-      {product.presentation && (
-        <span className="text-[11px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full w-fit font-medium">
-          {product.presentation}
-        </span>
+      {/* Imagen o área de ícono */}
+      {image ? (
+        <div className="w-full h-36 overflow-hidden">
+          <img
+            src={image}
+            alt={product.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+      ) : (
+        <div className={`w-full h-28 ${color.bg} flex items-center justify-center text-5xl border-b ${color.border}`}>
+          {icon}
+        </div>
       )}
 
-      {/* Precio */}
-      <div className="mt-auto">
-        <span className="text-2xl font-black text-[#8B0000]">${product.price}</span>
-        <span className="text-gray-400 text-xs ml-1">/ {product.unit}</span>
+      {/* Contenido */}
+      <div className="p-4 flex flex-col gap-2 flex-1">
+        {/* Badge categoría */}
+        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full w-fit border ${color.bg} ${color.text} ${color.border}`}>
+          {product.category}
+        </span>
+
+        {/* Nombre */}
+        <h3 className="font-bold text-gray-800 text-sm leading-snug">{product.name}</h3>
+
+        {/* Presentación */}
+        {product.presentation && (
+          <span className="text-[11px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full w-fit font-medium">
+            {product.presentation}
+          </span>
+        )}
+
+        {/* Precio */}
+        <div className="mt-auto pt-2">
+          <span className="text-xl font-black text-[#8B0000]">${product.price}</span>
+          <span className="text-gray-400 text-xs ml-1">/ {product.unit}</span>
+        </div>
       </div>
     </div>
   )
