@@ -9,13 +9,13 @@ type Product = {
   popular?: boolean
 }
 
-const categoryColors: Record<string, { bg: string; text: string; border: string }> = {
-  chuleta:  { bg: 'bg-red-50',    text: 'text-red-600',    border: 'border-red-200' },
-  pierna:   { bg: 'bg-orange-50', text: 'text-orange-600', border: 'border-orange-200' },
-  embutido: { bg: 'bg-yellow-50', text: 'text-yellow-700', border: 'border-yellow-200' },
-  tocino:   { bg: 'bg-amber-50',  text: 'text-amber-700',  border: 'border-amber-200' },
-  queso:    { bg: 'bg-green-50',  text: 'text-green-700',  border: 'border-green-200' },
-  jamon:    { bg: 'bg-pink-50',   text: 'text-pink-600',   border: 'border-pink-200' },
+const categoryColors: Record<string, { bg: string; text: string; badge: string }> = {
+  chuleta:  { bg: 'bg-red-50',    text: 'text-red-700',    badge: 'bg-red-100 text-red-700' },
+  pierna:   { bg: 'bg-orange-50', text: 'text-orange-700', badge: 'bg-orange-100 text-orange-700' },
+  embutido: { bg: 'bg-yellow-50', text: 'text-yellow-700', badge: 'bg-yellow-100 text-yellow-700' },
+  tocino:   { bg: 'bg-amber-50',  text: 'text-amber-700',  badge: 'bg-amber-100 text-amber-700' },
+  queso:    { bg: 'bg-green-50',  text: 'text-green-700',  badge: 'bg-green-100 text-green-700' },
+  jamon:    { bg: 'bg-pink-50',   text: 'text-pink-700',   badge: 'bg-pink-100 text-pink-700' },
 }
 
 const categoryIcons: Record<string, string> = {
@@ -40,57 +40,52 @@ const productImages: Record<string, string> = {
 }
 
 export default function ProductCard({ product, onClick }: { product: Product; onClick: () => void }) {
-  const color = categoryColors[product.category] ?? { bg: 'bg-gray-50', text: 'text-gray-600', border: 'border-gray-200' }
+  const color = categoryColors[product.category] ?? { bg: 'bg-gray-50', text: 'text-gray-700', badge: 'bg-gray-100 text-gray-700' }
   const icon  = categoryIcons[product.category] ?? '🥩'
   const image = productImages[product.name]
 
   return (
     <div
       onClick={onClick}
-      className="group relative bg-white rounded-2xl border border-gray-100 hover:border-[#8B0000]/20 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col overflow-hidden cursor-pointer"
+      className="group bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all duration-200 cursor-pointer overflow-hidden flex flex-col"
     >
-      {/* Badge popular */}
-      {product.popular && (
-        <span className="absolute top-3 right-3 z-10 bg-[#8B0000] text-white text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow">
-          Popular
-        </span>
-      )}
-
-      {/* Imagen o área de ícono */}
-      {image ? (
-        <div className="w-full h-36 overflow-hidden rounded-t-2xl">
+      {/* Área de imagen */}
+      <div className={`relative w-full aspect-[4/3] ${color.bg} overflow-hidden`}>
+        {image ? (
           <img
             src={image}
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
-        </div>
-      ) : (
-        <div className={`w-full h-36 ${color.bg} flex items-center justify-center text-5xl border-b ${color.border}`}>
-          {icon}
-        </div>
-      )}
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-5xl">
+            {icon}
+          </div>
+        )}
 
-      {/* Contenido */}
-      <div className="p-4 flex flex-col gap-2 flex-1">
-        {/* Badge categoría */}
-        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full w-fit border ${color.bg} ${color.text} ${color.border}`}>
+        {/* Badge categoría sobre imagen */}
+        <span className={`absolute top-2 left-2 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${color.badge} backdrop-blur-sm`}>
           {product.category}
         </span>
 
-        {/* Nombre */}
-        <h3 className="font-bold text-gray-800 text-sm leading-snug">{product.name}</h3>
-
-        {/* Presentación */}
-        {product.presentation && (
-          <span className="text-[11px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full w-fit font-medium">
-            {product.presentation}
+        {/* Badge popular */}
+        {product.popular && (
+          <span className="absolute top-2 right-2 bg-[#8B0000] text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded-full">
+            Popular
           </span>
         )}
+      </div>
 
-        {/* Precio */}
+      {/* Contenido */}
+      <div className="p-3 flex flex-col gap-1 flex-1">
+        <h3 className="font-bold text-gray-900 text-sm leading-snug">{product.name}</h3>
+
+        {product.presentation && (
+          <span className="text-[11px] text-gray-400 font-medium">{product.presentation}</span>
+        )}
+
         <div className="mt-auto pt-2">
-          <span className="text-xl font-black text-[#8B0000]">${product.price}</span>
+          <span className="text-lg font-black text-[#8B0000]">${product.price}</span>
           <span className="text-gray-400 text-xs ml-1">/ {product.unit}</span>
         </div>
       </div>
