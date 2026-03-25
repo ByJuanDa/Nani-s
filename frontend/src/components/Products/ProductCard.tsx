@@ -55,7 +55,7 @@ export default function ProductCard({ product, onClick }: { product: Product; on
           <img
             src={image}
             alt={product.name}
-            className="w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform duration-300"
+            className="w-full h-full object-cover scale-150 group-hover:scale-[1.65] transition-transform duration-300"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-5xl">
