@@ -63,7 +63,7 @@ export default function ProductModal({ product, onClose, onAdd }: { product: Pro
         {/* Imagen o header con ícono */}
         {image ? (
           <div className="relative w-full h-48">
-            <img src={image} alt={product.name} className="w-full h-full object-cover" />
+            <img src={image} alt={product.name} className="w-full h-full object-contain p-2" />
             <button
               type="button"
               onClick={onClose}
