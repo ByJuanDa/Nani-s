@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 type Product = {
   id: number
@@ -45,6 +45,7 @@ export default function ProductModal({ product, onClose, onAdd }: { product: Pro
   const color = categoryColors[product.category] ?? { bg: 'bg-gray-50', text: 'text-gray-600', border: 'border-gray-200' }
   const icon  = categoryIcons[product.category] ?? '🥩'
   const image = productImages[product.name]
+  const [lightbox, setLightbox] = useState(false)
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -52,6 +53,22 @@ export default function ProductModal({ product, onClose, onAdd }: { product: Pro
   }, [])
 
   return (
+    <>
+    {lightbox && (
+      <div
+        className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 cursor-zoom-out"
+        onClick={() => setLightbox(false)}
+      >
+        <img src={image!} alt={product.name} className="max-w-full max-h-full object-contain p-4" />
+        <button
+          type="button"
+          onClick={() => setLightbox(false)}
+          className="absolute top-4 right-4 bg-white/20 hover:bg-white/40 text-white text-xl w-10 h-10 rounded-full flex items-center justify-center transition-colors"
+        >
+          ✕
+        </button>
+      </div>
+    )}
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
       onClick={onClose}
@@ -63,7 +80,12 @@ export default function ProductModal({ product, onClose, onAdd }: { product: Pro
         {/* Imagen o header con ícono */}
         {image ? (
           <div className="relative w-full h-48">
-            <img src={image} alt={product.name} className="w-full h-full object-contain p-2" />
+            <img
+              src={image}
+              alt={product.name}
+              onClick={(e) => { e.stopPropagation(); setLightbox(true) }}
+              className="w-full h-full object-contain p-2 cursor-zoom-in"
+            />
             <button
               type="button"
               onClick={onClose}
@@ -129,5 +151,6 @@ export default function ProductModal({ product, onClose, onAdd }: { product: Pro
         </div>
       </div>
     </div>
+    </>
   )
 }
