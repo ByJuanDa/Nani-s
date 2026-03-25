@@ -58,7 +58,7 @@ export default function ProductCard({ product, onClick }: { product: Product; on
 
       {/* Imagen o área de ícono */}
       {image ? (
-        <div className="w-full h-36 overflow-hidden">
+        <div className="w-full h-36 overflow-hidden rounded-t-2xl">
           <img
             src={image}
             alt={product.name}
