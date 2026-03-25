@@ -58,11 +58,11 @@ export default function ProductCard({ product, onClick }: { product: Product; on
 
       {/* Imagen o área de ícono */}
       {image ? (
-        <div className={`w-full h-36 ${color.bg} border-b ${color.border} flex items-center justify-center overflow-hidden`}>
+        <div className="w-full h-36 overflow-hidden">
           <img
             src={image}
             alt={product.name}
-            className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         </div>
       ) : (

@@ -80,8 +80,8 @@ export default function ProductModal({ product, onClose, onAdd }: { product: Pro
         {/* Imagen o header con ícono */}
         {image ? (
           <div className="relative w-full">
-            <div className="w-full h-48">
-              <img src={image} alt={product.name} className="w-full h-full object-contain" />
+            <div className="w-full h-56 overflow-hidden">
+              <img src={image} alt={product.name} className="w-full h-full object-cover" />
             </div>
             <button
               type="button"
@@ -93,9 +93,9 @@ export default function ProductModal({ product, onClose, onAdd }: { product: Pro
             <button
               type="button"
               onClick={(e) => { e.stopPropagation(); setLightbox(true) }}
-              className="w-full flex items-center justify-center gap-2 py-2 bg-gray-50 border-t border-gray-100 text-gray-500 hover:text-[#8B0000] hover:bg-gray-100 text-xs font-semibold transition-colors"
+              className="absolute bottom-0 right-0 bg-black/50 hover:bg-black/70 text-white text-xs font-semibold px-3 py-1.5 rounded-tl-xl flex items-center gap-1 transition-colors"
             >
-              <span>⛶</span> Ver imagen completa
+              ⛶ Ver completa
             </button>
           </div>
         ) : (
