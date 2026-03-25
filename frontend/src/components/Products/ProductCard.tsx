@@ -27,6 +27,17 @@ const categoryIcons: Record<string, string> = {
   jamon:    '🍱',
 }
 
+const productImages: Record<string, string> = {
+  'Chuleta entera':   '/products/chuleta_entera.jpeg',
+  'Chuleta de kilo':  '/products/chuleta_1kg.jpeg',
+  'Pierna española':  '/products/pierna_esp_pieza.jpeg',
+  'Tocino (pieza)':   '/products/tocino_pieza.jpeg',
+  'Tocino kilo':      '/products/tocino_1kg.jpeg',
+  'Jamón preferente': '/products/jamon_preferente.jpeg',
+  'Jamón York':       '/products/jamon_york.jpeg',
+  'Chistorra':        '/products/chistorra.jpeg',
+}
+
 export default function ProductCard({ product, onClick }: { product: Product; onClick: () => void }) {
   const color = categoryColors[product.category] ?? { bg: 'bg-gray-50', text: 'text-gray-600', border: 'border-gray-200' }
   const icon  = categoryIcons[product.category] ?? '🥩'
@@ -46,9 +57,11 @@ export default function ProductCard({ product, onClick }: { product: Product; on
         </span>
       )}
 
-      {/* Ícono */}
-      <div className={`w-12 h-12 rounded-xl ${color.bg} flex items-center justify-center text-2xl border ${color.border}`}>
-        {icon}
+      {/* Imagen o ícono */}
+      <div className={`w-12 h-12 rounded-xl ${color.bg} flex items-center justify-center text-2xl border ${color.border} overflow-hidden`}>
+        {productImages[product.name]
+          ? <img src={productImages[product.name]} alt={product.name} className="w-full h-full object-cover" />
+          : icon}
       </div>
 
       {/* Badge categoría */}
